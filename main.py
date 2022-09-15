@@ -2,9 +2,6 @@ import time;
 import random;
 import re;
 
-def line():
-  print('*'*70);
-  
 #Colores
 BLUE = '\033[34m'
 YELLOW = '\033[33m'
@@ -13,9 +10,12 @@ RESET = '\033[39m'
 GREEN = '\033[32m'
 MAGENTA = '\u001b[35m';
 
+def line(color=YELLOW):
+  print(color+ '*'*70 + RESET);
+   
 #Variables
 puntajes=[];
-ntaje = random.randint(0,10);
+puntaje = random.randint(0,10);
 intento = 0
 iniciar_trivia = True
 
@@ -24,24 +24,30 @@ name = input('Hola cual es tu nombre: ' + YELLOW).strip();
 
 while (not re.fullmatch(r"[A-Za-z ]{1,20}", name)):
   name = input(RED+' ** No podremos iniciar la trivia, si no escribes un nombre: ' + YELLOW).strip();
-
-line()
-
-print('\n', BLUE + 'A continuación se podra en juego tus conocimientos sobre el ');
-print('Tu puntaje actual es de: ' + YELLOW, puntaje)
-
-line()
+  
+print('\n');
+line(BLUE)
+print(BLUE+'A continuación se podra en juego tus conocimientos sobre el ');
+line(BLUE);
 
 time.sleep(1);
-print('\n', RESET + 'Estas listo ' + YELLOW + name + RESET + ' ?')
-input('(preciona Enter para empezar ...) \n')
+print('\n');
+print(RESET + 'Estas listo ' + YELLOW + name + RESET + ' ?')
+print('Tu puntaje actual es de: ' + YELLOW, puntaje)
+
+for i in range(3,0,-1):
+  time.sleep(1);
+  print((i), '...')
+  
+input(RESET + '(preciona Enter para empezar ...)\n')
 
 while iniciar_trivia == True:
   time.sleep(1)
-
   intento += 1  
   puntaje = 0
 
+  line()
+  
   print(RESET+'\n Número de intento: ', intento, '\n');
   
   #Question 1
@@ -50,14 +56,14 @@ while iniciar_trivia == True:
   for alternativa in pg1_alt:
     print(' ',alternativa);
 
-  res_n1 = input(RESET + 'Tu respuesta es: ' + YELLOW).lower()
+  res_n1 = input(RESET+'Tu respuesta es: '+YELLOW).lower().strip();
 
   while res_n1 not in ('a', 'b', 'c', 'd'):
       if res_n1 == 'x':
         puntaje += 1000
         print('Hackeaste el sistema, tu sabes que es Hulk ... :/ .. Ayuda!!');
         break
-      res_n1 = input('Ingrese una opcion dentro de las disponibles, por favor: ').lower();
+      res_n1 = input(YELLOW+'Ingrese una opcion dentro de las disponibles, por favor: '+ RESET).lower().strip();
       
   time.sleep(1)
   
@@ -80,12 +86,14 @@ while iniciar_trivia == True:
   #Question 2
   print(GREEN + '2. ¿ Quién es el hombre mas inteligente ?')
   pg2_alt = ['a) Reed Richards','b) Peny Stark','c) Stephen Hawking','d) Box Bunny'];
+  
   for alternativa in pg2_alt:
     print(' ', alternativa);
 
-  res_n2 = input(RESET + 'Tu respuesta es: ' + YELLOW).lower();
+  res_n2 = input(RESET+'Tu respuesta es: '+YELLOW).lower().strip();
+  
   while res_n2 not in ('a', 'b', 'c', 'd'):
-    res_n2 = input('Ingrese una opcion dentro de las disponibles, por favor: '+RESET).lower();
+    res_n2 = input(YELLOW+'Ingrese una opcion dentro de las disponibles, por favor: '+RESET).lower().strip();
     
   time.sleep(1)
   if res_n2 == 'b':
@@ -111,9 +119,11 @@ while iniciar_trivia == True:
   for alternativa in pg3_alt:
     print(' ', alternativa)
   
-  res_n2 = input(RESET + 'Tu respuesta es: ' + YELLOW).lower();
+  res_n2 = input(RESET + 'Tu respuesta es: ' + YELLOW).lower().strip();
+  
   while res_n2 not in ('a', 'b', 'c', 'd'):
-    res_n2 = input('Ingrese una opcion dentro de las disponibles, por favor: '+RESET).lower();
+    res_n2 = input(YELLOW+'Ingrese una opcion dentro de las disponibles, por favor: '+RESET).lower().strip();
+    
   time.sleep(1)
   if res_n2 == 'a':
       puntaje+=1;
@@ -142,7 +152,7 @@ while iniciar_trivia == True:
   time.sleep(1)
   
   repetir_trivia = input('\n¿ Deseas iniciar la trivia nuevamente ?, \nIngresa "y" para repetir, caso contrario, preciona cualquier tecla: '+RESET
-  ).lower()
+  ).lower().strip();
   
   if (repetir_trivia != 'y'):
     iniciar_trivia = False
