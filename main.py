@@ -1,5 +1,10 @@
-import time
+import time;
+import random;
+import re;
 
+def line():
+  print('*'*70);
+  
 #Colores
 BLUE = '\033[34m'
 YELLOW = '\033[33m'
@@ -8,17 +13,27 @@ RESET = '\033[39m'
 GREEN = '\033[32m'
 MAGENTA = '\u001b[35m';
 
-name = input('Hola cual es tu nombre: ' + YELLOW)
-print(BLUE + 'A continuación se podra en juego tus conocimientos sobre , ');
+#Variables
 puntajes=[];
-
-puntaje = 0
+ntaje = random.randint(0,10);
 intento = 0
 iniciar_trivia = True
+
+
+name = input('Hola cual es tu nombre: ' + YELLOW).strip();
+
+while (not re.fullmatch(r"[A-Za-z ]{1,20}", name)):
+  name = input(RED+' ** No podremos iniciar la trivia, si no escribes un nombre: ' + YELLOW).strip();
+
+line()
+
+print('\n', BLUE + 'A continuación se podra en juego tus conocimientos sobre el ');
 print('Tu puntaje actual es de: ' + YELLOW, puntaje)
 
+line()
+
 time.sleep(1);
-print(RESET + 'Estas listo ' + YELLOW + name + RESET + ' ?')
+print('\n', RESET + 'Estas listo ' + YELLOW + name + RESET + ' ?')
 input('(preciona Enter para empezar ...) \n')
 
 while iniciar_trivia == True:
@@ -99,7 +114,6 @@ while iniciar_trivia == True:
   res_n2 = input(RESET + 'Tu respuesta es: ' + YELLOW).lower();
   while res_n2 not in ('a', 'b', 'c', 'd'):
     res_n2 = input('Ingrese una opcion dentro de las disponibles, por favor: '+RESET).lower();
-
   time.sleep(1)
   if res_n2 == 'a':
       puntaje+=1;
