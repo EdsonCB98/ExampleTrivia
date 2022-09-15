@@ -9,6 +9,7 @@ RED = '\033[31m'
 RESET = '\033[39m'
 GREEN = '\033[32m'
 MAGENTA = '\u001b[35m';
+CYAN = "\033[0;36m";
 
 def line(color=YELLOW):
   print(color+ '*'*70 + RESET);
@@ -22,6 +23,11 @@ iniciar_trivia = True
 
 name = input('Hola cual es tu nombre: ' + YELLOW).strip();
 
+correct=random.randint(20,50);
+r_basico=random.randint(10,20);
+r_medio=random.randint(3,10);
+r_alto=random.randint(1,3);
+
 while (not re.fullmatch(r"[A-Za-z ]{1,20}", name)):
   name = input(RED+' ** No podremos iniciar la trivia, si no escribes un nombre: ' + YELLOW).strip();
   
@@ -34,19 +40,19 @@ time.sleep(1);
 print('\n');
 print(RESET + 'Estas listo ' + YELLOW + name + RESET + ' ?')
 print('Tu puntaje actual es de: ' + YELLOW, puntaje)
+input(RESET + '(preciona Enter para empezar ...)\n' + YELLOW)
 
-for i in range(3,0,-1):
+for i in range(5,0,-1):
   time.sleep(1);
   print((i), '...')
   
-input(RESET + '(preciona Enter para empezar ...)\n')
 
 while iniciar_trivia == True:
   time.sleep(1)
   intento += 1  
   puntaje = 0
 
-  line()
+  line(BLUE)
   
   print(RESET+'\n Número de intento: ', intento, '\n');
   
@@ -68,17 +74,17 @@ while iniciar_trivia == True:
   time.sleep(1)
   
   if res_n1 == 'a':
-      puntaje+=10
-      print(RED+'  mmmm...error')
+      puntaje+=r_basico;
+      print(RED+'  mmmm...Casi, estas por buen camino')
   elif res_n1 == 'c':
-      puntaje+=3
-      print(RED+'El fue un Jefe Final')
+      puntaje+=r_medio;
+      print(RED+' El fue un Jefe Final')
   elif res_n1 == 'd':
-      puntaje+=1 
-      print(RED+'Podria ser, pero no pertenece a esta franquicia')
+      puntaje+=r_alto
+      print(RED+' Podria ser, pero no pertenece a esta franquicia')
   else:
-      puntaje+=25
-      print(MAGENTA+'Acertaste !!! puntaje: ', puntaje)
+      puntaje+=correct;
+      print(MAGENTA+' Acertaste !!! ')
 
   print('\n')
   time.sleep(1)
@@ -97,17 +103,16 @@ while iniciar_trivia == True:
     
   time.sleep(1)
   if res_n2 == 'b':
-      puntaje-=10
+      puntaje-=r_basico;
       print(RED+' Te engaño el apellido, pero no era Tony.')
   elif res_n2 == 'c':
-      puntaje+=15
+      puntaje+=r_medio;
       print(RED+' En nuestro universo, podría ser.')
-  elif res_n2 == 'd':
-      puntaje/=2;
+  elif res_n2 =='d':
+      puntaje/=r_alto;
       print(RED + ' Definitivamente no esta en la categoría humano.')
   else:
-      puntaje+=10
-      puntaje*=2
+      puntaje+=correct;
       print(MAGENTA+' Cuestionable, pero acertaste. ')
   
   print('\n')
@@ -126,33 +131,50 @@ while iniciar_trivia == True:
     
   time.sleep(1)
   if res_n2 == 'a':
-      puntaje+=1;
+      puntaje+=r_basico;
       print(RED+' Nos confundimos de franquicia.')
   elif res_n2 == 'b':
-      puntaje+=15
+      puntaje+=r_medio;
       print(RED+' Pertenecen al mismo universo, pero no.')
   elif res_n2 == 'd':
-      puntaje/=2;
+      puntaje/=r_alto;
       print(RED + ' Definitivamente no es un elemento químico de MARVEL.')
   else:
-      puntaje+=15
-      puntaje*=2
+      puntaje+=correct;
       print(MAGENTA+' Le diste al clavo !!!.')
     
-
+  
   print('\n')
   time.sleep(1)
+  ruleta=['+','-','*','/'];
+  ruleta_valores=[correct, r_basico, r_medio, r_alto];
   
+  print(CYAN+ ' **Ruleta de puntaje final');
+  print('  **A tu puntaje obtenido le haremos unos cambios.\n Estos seran :')
+
+  for i in range (4):
+    time.sleep(1);
+    print(' ', ruleta[i], ruleta_valores[i])
+  
+  puntaje+=ruleta_valores[0];
+  puntaje-=ruleta_valores[1];
+  puntaje*=ruleta_valores[2];
+  puntaje/=ruleta_valores[3];
+
+  print('\n');
   print(RESET+'Cargando resultados...')
   time.sleep(2)
-  print('\n')
-  print('  Hola ' + YELLOW, name.capitalize(), RESET + 'Gracias por jugar')
-  print(RESET + '  Este fue tu puntaje: ' + YELLOW, puntaje)
+  print('\n');
+  
+  print('  Hola ' + YELLOW, name.capitalize(), RESET + '\n  Gracias por jugar')
+  print(RESET + '  Este fue tu puntaje: ' + YELLOW, int(puntaje))
 
   time.sleep(1)
   
   repetir_trivia = input('\n¿ Deseas iniciar la trivia nuevamente ?, \nIngresa "y" para repetir, caso contrario, preciona cualquier tecla: '+RESET
   ).lower().strip();
+
+  print('\n')
   
   if (repetir_trivia != 'y'):
     iniciar_trivia = False
@@ -165,11 +187,12 @@ if (intento>1):
   print('\n'+RESET+'** Hola de nuevo, aqui un breve reporte de tus intentos:');
 
   for i in range(0,len(puntajes),1):
-    print('  '+RESET+'Intento: '+YELLOW, i+1, RESET+' Puntaje: '+YELLOW, puntajes[i]);
+    print('  '+RESET+'Intento: '+YELLOW, i+1, RESET+' Puntaje: '+YELLOW, int(puntajes[i]));
 
   print('\n')
-  if (puntajes[0] < puntajes[-1]):
+  
+  if (puntajes[-1]<puntajes[0]):
     print(MAGENTA+'  *** Haz mejorado ... estas por buen camino');
   else:
-    print(MAGENTA+'  *** Usted es muy observador y detallista. Y un gran fan de MARVEL')
+    print(MAGENTA+'  *** Usted es muy observador y detallista. Y un gran fan de MARVEL o lograste hackearnos')
   
