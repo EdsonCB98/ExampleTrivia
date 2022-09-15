@@ -27,7 +27,7 @@ while (not re.fullmatch(r"[A-Za-z ]{1,20}", name)):
   
 print('\n');
 line(BLUE)
-print(BLUE+'A continuación se podra en juego tus conocimientos sobre el ');
+print(BLUE+'A continuación se podra en juego tus conocimientos sobre el Universo Cinematográfico de Marvel (MCU). \n\nLee atentamente cada pregunta y responde según creas conveniente, solo con las letras, dentro de las opciones disponibles. ("a","b","c" o "d") \nSuerte !!! ');
 line(BLUE);
 
 time.sleep(1);
